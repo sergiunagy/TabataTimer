@@ -1,5 +1,7 @@
 package com.moonapps.moonmoon.tabatatimer.utils;
 
+import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Handler;
 
 import com.moonapps.moonmoon.tabatatimer.TabataTimer.TabataRunActivity;
@@ -12,50 +14,94 @@ import com.moonapps.moonmoon.tabatatimer.TabataTimer.TabataRunActivity;
  */
 
 public class TimerTicker {
-    private Handler handler;
-    private Runnable runnable;
-    private int tickPeriod;
-
-    TabataRunActivity runActivity ;
+    public static final int ONE_SECOND = 1000;
+    TabataRunActivity runActivity;
+    /*
+    flag inidcating that ticker is started
+     */
+    private boolean isRunningTicker;
 
 
     /***
      * create a new Ticker around a period and the associated Timer activity
+     *
      * @param tickPeriod
      * @param runActivity
      */
 
     public TimerTicker(int tickPeriod, TabataRunActivity runActivity) {
-        this.tickPeriod = tickPeriod;
         this.runActivity = runActivity;
-        createTicker();
+        isRunningTicker = false;
     }
 
     /***
      * playLongSound the ticker. Executes hook function provided by the Timer
      */
-    public void startTicking(){
-        handler.postDelayed(runnable, tickPeriod);
-   }
+    public void startTicking() {
+        isRunningTicker = true;
+        tick();
+    }
+
+    private void tick() {
+        TabataAsyncTask oneSecondTask = new TabataAsyncTask();
+        oneSecondTask.execute();
+    }
 
     /***
      * stops the Ticker
      */
-    public void stopTicking(){
-        handler.removeCallbacks(runnable);
+    public void stopTicking() {
+        isRunningTicker = false;
     }
 
     /***
-     * create a handler and runnable pair for the ticker
+     * implement a task to execute Timer operations in background
+     * - Parameters received : String with start system time
+     * - Calls context activity timer actions hook method
      */
-    private void createTicker() {
-        handler = new Handler();
+    private class TabataAsyncTask extends AsyncTask<Void, Long, Void> {
 
-        runnable = new Runnable() {
-            public void run() {
-                runActivity.timerTickManager();
-                handler.postDelayed(this, tickPeriod);
+        @Override
+        protected Void doInBackground(Void... params) {
+            /*
+            set the initial timestamp
+             */
+            long startTime = System.currentTimeMillis();
+            /*
+            get the context activity
+             */
+            publishProgress(startTime);
+            /*
+            calculate the duration of the actions
+             */
+            long duration = System.currentTimeMillis() - startTime;
+            try {
+                /*
+                activate next tick one second after this one STARTED
+                 */
+                Thread.sleep(ONE_SECOND - duration);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        };
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Long... values) {
+            super.onProgressUpdate(values);
+               /*
+                trigger activity actions
+                */
+            runActivity.timerTickManager();
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            
+            if(isRunningTicker){
+                tick();
+            }
+        }
     }
 }
