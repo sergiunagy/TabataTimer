@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_run_timer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    app:theme="@style/AppTheme.NoActionBar"
+    tools:context="com.moonapps.moonmoon.tabatatimer.TabataTimer.TabataRunActivity">
+
+    <RelativeLayout
+        android:id="@+id/info_tag_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@color/colorPrimary"
+        android:gravity="bottom">
+
+        <TextView
+            android:id="@+id/setNumberTag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:text="Get ready"
+            android:textAlignment="center"
+            android:textSize="60sp" />
+
+        <TextView
+            android:id="@+id/displaySetNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/setNumberTag"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/setNumberTag"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_toEndOf="@id/setNumberTag"
+            android:layout_toRightOf="@id/setNumberTag"
+            android:text="00"
+            android:textAlignment="center"
+            android:textSize="60sp"
+            android:visibility="invisible" />
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/dividerTop"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/info_tag_layout"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:background="#000000" />
+
+    <RelativeLayout
+        android:id="@+id/main_display_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dividerTop">
+
+        <TextView
+            android:id="@+id/displayTimer"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginEnd="25dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="5dp"
+            android:fontFamily="sans-serif-condensed"
+            android:onClick="timerClickAction"
+            android:text=""
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="250sp" />
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/dividerBottom"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/main_display_layout"
+        android:layout_marginTop="10dp"
+        android:background="#000000" />
+
+
+    <RelativeLayout
+        android:layout_below="@id/dividerBottom"
+        android:id="@+id/bottom_display_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <ImageView
+            android:layout_alignParentTop="true"
+            android:id="@+id/restart_button"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_above="@+id/restart_button_tag"
+            android:layout_centerHorizontal="true"
+            android:onClick="restartSessionActions"
+            android:src="@drawable/reset_glossy" />
+
+        <TextView
+            android:id="@+id/restart_button_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:textSize="20sp"
+            android:text="Restart Session"
+            />
+        <!--<TextView-->
+        <!--android:id="@+id/lockScreenTag"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_above="@id/run_lock_screen_switch"-->
+        <!--android:layout_alignEnd="@id/run_lock_screen_switch"-->
+        <!--android:layout_alignLeft="@id/run_lock_screen_switch"-->
+        <!--android:layout_alignRight="@id/run_lock_screen_switch"-->
+        <!--android:layout_alignStart="@id/run_lock_screen_switch"-->
+        <!--android:text="Lock screen"-->
+        <!--android:textAlignment="center"-->
+        <!--android:textSize="18sp" />-->
+
+        <!--<Switch-->
+        <!--android:id="@+id/run_lock_screen_switch"-->
+        <!--android:layout_width="120dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignBottom="@id/restart_button_layout"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_alignParentEnd="true"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:layout_marginEnd="10dp"-->
+
+        <!--android:enabled="true"-->
+        <!--android:onClick="setScreenOrientationOnUserInput"-->
+        <!--android:text="" />-->
+    </RelativeLayout>
+
+</RelativeLayout>

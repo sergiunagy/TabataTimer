@@ -1,0 +1,135 @@
+Use cases :
+-----------------
+T: Load defaults
+A: Application
+
+Aplication shall open the configuration view for each timer with a pre-loaded set of values.
+
+--------------------------
+T: Run by button press
+A: User
+
+User shall be able to start the session with the press of the Run button
+
+----------------------------
+T: Pause
+A: User
+
+User shall be able to pause the set by a simple action - screen touch
+
+-----------------------------
+T: Start from pause
+A: User
+
+User shall be able to restart a paused set by the same action that paused it
+
+----------------------------
+T: Restart session
+A: User
+
+User shall be able to restart a session from pause.
+
+---------------------------
+T: return to configuration
+A: User
+
+User shall be able to return to the configuration screen after pausing the set
+
+-------------------------------------------
+T: Switch between timers
+A: User 
+
+User shall be able to switch between the timers using either a horizontal swipe, or a multiple Sw selection
+
+-------------------------------
+T: Program own Round - tabata
+A: User
+
+User shall be able to enter a new Round time in seconds (v2 provide minutes also)
+
+---------------------------------
+
+T: Program own Pause - tabata
+A: User
+
+User shall be able to enter a new Pause time in seconds (v2 provide minutes also)
+
+-------------------------------
+T: Program own number of sets - tabata
+A: User
+
+User shall be able to enter a new Round time in seconds (v2 provide minutes also)
+
+----------------------------------
+
+T: Program own Round - boxing round
+A: User
+
+User shall be able to enter a new Round time in seconds (v2 provide minutes also)
+
+-------------------------------
+T: Program own Pause - Boxing Round
+A: User
+
+User shall be able to enter a new Pause time in seconds (v2 provide minutes also)
+
+-------------------------------
+T: Program own interval - interval timer
+A: User
+
+User shall be able to enter a new interval time in seconds (v2 provide minutes also)
+
+-------------------------------
+T: Save configuration
+A: User
+
+User shall be able to save a configuration. Oldest configuration is destroyed.
+
+-------------------------------
+T: Load configuration
+A: User
+
+User shall be able to load one of the last 5 saved configurations via action: swipe up, load buton..
+
+
+---------------------------------
+T: load own sounds
+A: user
+
+User shall be able to replace audio notifications with own selection.
+
+--------------------------------
+T: lock screen rotation
+A: User
+
+User shall be able to lock the screen rotation from inside the application
+
+--------------------------------
+T: scale on any screen
+A: User
+
+User shall be able to install the application on any screen for mobile Android: phone or tablet and lose
+no functionality
+
+---------------------------------
+T: screen rotation adaptability
+A: user
+
+User shall be able to use the application in landscape or portrait mode and lose no functionality
+
+
+--------------------------------
+T: create primary timer
+A: user
+
+User shall be able to set a primary timer. This timer shall be the first view on application start. 
+
+
+---------------------------------
+T: wthdraw keyboard
+A: user
+
+User shal be able to withdraw keyboard on a click outside edit boxes
+
+
+

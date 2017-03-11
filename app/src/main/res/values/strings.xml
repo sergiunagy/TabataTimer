@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">TabataTimer</string>
+    <string name="seconds_per_round">Seconds per Round</string>
+    <string name="seconds_per_pause">Seconds per pause</string>
+    <string name="how_many_rounds">How many Rounds</string>
+    <string name="run">Run</string>
+    <string name="tabata_normal_round">Tabata / Normal round</string>
+    <string name="runningTimerText">Timer running</string>
+    <string name="defaultTabataRaound">20</string>
+    <string name="tabataDefaultRound">20</string>
+    <string name="tabataDefaultPause">10</string>
+    <string name="tabataDefaultSetsNo">8</string>
+    <string name="lock_screen_rotation">Lock screen rotation\t</string>
+    <string name="restart_session_btn">Restart\nsession</string>
+    <string name="config_default_tabata_round">20</string>
+    <string name="config_default_tabata_pause">10</string>
+    <string name="config_default_tabata_set_number">8</string>
+    <string name="tabataTimerTitle">Tabata Timer configuration</string>
+    <string name="session_finished">Session\nfinished</string>
+</resources>
