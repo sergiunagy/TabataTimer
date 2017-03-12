@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="@string/pref_lockscreen"
+        android:title="Lock screen rotation" />
+
+    <PreferenceCategory android:title="Preference category">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="@string/pref_prestart"
+            android:title="@string/pref_lock_screen_title"
+            android:summary="@string/pref_lock_screen_summary"/>
+
+        <EditTextPreference
+            android:defaultValue="5"
+            android:editable="false"
+            android:key="@string/pref_prestart_description"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/pref_prestart_title"
+            android:summary="@string/pref_prestart_summary"/>
+
+        <EditTextPreference
+            android:defaultValue="Default value"
+            android:key="@string/pref_prestart_new_value"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Edit text preference"
+            />
+    </PreferenceCategory>
+</PreferenceScreen>

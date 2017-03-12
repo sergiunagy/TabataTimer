@@ -1,11 +1,10 @@
 package com.moonapps.moonmoon.tabatatimer.utils;
 
-import android.app.Activity;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 
-import com.moonapps.moonmoon.tabatatimer.TabataTimer.SwipeGestures;
-import com.moonapps.moonmoon.tabatatimer.TabataTimer.TabataConfigurationActivity;
+import com.moonapps.moonmoon.tabatatimer.timer_configuration.SwipeGestures;
+import com.moonapps.moonmoon.tabatatimer.timer_configuration.TabataConfigurationActivity;
 
 /**
  * Created by Moon Moon on 2/25/2017.

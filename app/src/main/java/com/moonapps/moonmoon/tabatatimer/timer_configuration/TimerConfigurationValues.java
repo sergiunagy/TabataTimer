@@ -1,10 +1,8 @@
-package com.moonapps.moonmoon.tabatatimer.TabataTimer;
+package com.moonapps.moonmoon.tabatatimer.timer_configuration;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.moonapps.moonmoon.tabatatimer.R;
-import com.moonapps.moonmoon.tabatatimer.utils.App;
 import com.moonapps.moonmoon.tabatatimer.valueloader.ConfigurationValues;
 
 import java.util.ArrayList;
@@ -114,15 +112,6 @@ public class TimerConfigurationValues extends ConfigurationValues {
         this.setsNumber = setsNumber;
     }
 
-    /**
-     * load default set of values
-     */
-    private void loadDefaults() {
-
-        roundDuration = App.getContext().getResources().getString(R.string.tabataDefaultRound);
-        pauseDuration = App.getContext().getResources().getString(R.string.tabataDefaultPause);
-        setsNumber = App.getContext().getResources().getString(R.string.tabataDefaultSetsNo);
-    }
 
     @Override
     public void loadValues(int storedValueSetIndex) {

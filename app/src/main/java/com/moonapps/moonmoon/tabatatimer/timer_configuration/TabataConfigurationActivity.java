@@ -1,24 +1,27 @@
-package com.moonapps.moonmoon.tabatatimer.TabataTimer;
+package com.moonapps.moonmoon.tabatatimer.timer_configuration;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.preference.PreferenceManager;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Switch;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.moonapps.moonmoon.tabatatimer.R;
+import com.moonapps.moonmoon.tabatatimer.timer_running_behavior.TabataRunActivity;
+import com.moonapps.moonmoon.tabatatimer.user_preferences.PreferencesActivity;
 import com.moonapps.moonmoon.tabatatimer.utils.TabataGestureListener;
 import com.moonapps.moonmoon.tabatatimer.utils.TabataGestureListenerInterface;
 import com.moonapps.moonmoon.tabatatimer.utils.TimerConfigurationsLoader;
-import com.moonapps.moonmoon.tabatatimer.utils.TimerTextWatcher;
 
 public class TabataConfigurationActivity extends AppCompatActivity implements TabataGestureListenerInterface {
 
@@ -53,7 +56,7 @@ public class TabataConfigurationActivity extends AppCompatActivity implements Ta
         /*
         todo: create screen layouts for landscape
          */
-        setScreenOrientation(false);
+
         /*
         playLongSound with the Primary Timer
          */
@@ -69,6 +72,18 @@ public class TabataConfigurationActivity extends AppCompatActivity implements Ta
         selectKeyboardTypeForEdits();
 
 
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        /*
+        get preferences
+         */
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        lockScreenRotation = prefs.getBoolean(getString(R.string.pref_lockscreen), true);
+        setLockScreen(lockScreenRotation);
     }
 
     /**
@@ -164,7 +179,7 @@ public class TabataConfigurationActivity extends AppCompatActivity implements Ta
             updateConfigurationValuesDisplayed();
 
             lockScreenRotation = data.getBooleanExtra(TABATA_RUNNING_RETURN_LOCK, false);
-            setScreenOrientation(lockScreenRotation);
+            setLockScreen(lockScreenRotation);
 
         }
     }
@@ -174,27 +189,22 @@ public class TabataConfigurationActivity extends AppCompatActivity implements Ta
      *
      * @param lockScreenRotation
      */
-    private void setScreenOrientation(boolean lockScreenRotation) {
-        Switch lockSwitch = (Switch) findViewById(R.id.run_lock_screen_switch);
-
+    private void setLockScreen(boolean lockScreenRotation) {
+        ImageButton lock = (ImageButton) findViewById(R.id.screen_lock);
+        /*
+        set field
+         */
+        this.lockScreenRotation = lockScreenRotation;
+        /*
+        configure activity level screen rotation
+         */
         if (lockScreenRotation) {
             setRequestedOrientation(this.getResources().getConfiguration().orientation);
-            lockSwitch.setChecked(true);
+            lock.setImageDrawable(getResources().getDrawable(R.drawable.lock_closed));
         } else {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
-            lockSwitch.setChecked(false);
+            lock.setImageDrawable(getResources().getDrawable(R.drawable.lock_open));
         }
-    }
-
-    /**
-     * lock or unlock the screen orientation according to the value of the switch
-     *
-     * @param view
-     */
-    public void setScreenOrientation(View view) {
-        Switch lockSwitch = (Switch) findViewById(R.id.run_lock_screen_switch);
-        lockScreenRotation = lockSwitch.isChecked();
-        setScreenOrientation(lockScreenRotation);
     }
 
     @Override
@@ -226,7 +236,7 @@ public class TabataConfigurationActivity extends AppCompatActivity implements Ta
     }
 
     private void setTimerTitleText(String timerName) {
-        TextView title = (TextView) findViewById(R.id.title_text);
+        TextView title = (TextView) findViewById(R.id.toolbar_title);
         title.setText(timerName);
     }
 
@@ -243,5 +253,27 @@ public class TabataConfigurationActivity extends AppCompatActivity implements Ta
     public void setSetNoDisplayValue(String setNoDisplayValue) {
         EditText newSetsNo = (EditText) findViewById(R.id.config_round_number);
         newSetsNo.setText(setNoDisplayValue);
+    }
+
+    public void runLockMessage(View view) {
+        String message;
+        if(lockScreenRotation){
+            message = "Screen is locked";
+        }else{
+            message = "Screen is unlocked";
+        }
+
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+
+
+    }
+
+    /**
+     * start the Praferences activity
+     * @param view
+     */
+    public void runGetPreferences(View view) {
+        Intent settingsIntent = new Intent(this, PreferencesActivity.class);
+        startActivity(settingsIntent);
     }
 }

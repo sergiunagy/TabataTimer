@@ -17,4 +17,12 @@
     <string name="config_default_tabata_set_number">8</string>
     <string name="tabataTimerTitle">Tabata Timer configuration</string>
     <string name="session_finished">Session\nfinished</string>
+    <string name="pref_lock_screen_summary">Check the box to instruct the app to use a pre-start round</string>
+    <string name="pref_lock_screen_title">Use pre-start round</string>
+    <string name="pref_prestart_summary">Enter a new pre-start value, in seconds</string>
+    <string name="pref_prestart_title">Set new pre-start value</string>
+    <string name="pref_lockscreen">pref_lock_screen</string>
+    <string name="pref_prestart">pref_prestart</string>
+    <string name="pref_prestart_description">pref_editprestart</string>
+    <string name="pref_prestart_new_value">edit_text_preference_1</string>
 </resources>

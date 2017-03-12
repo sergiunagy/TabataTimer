@@ -1,10 +1,8 @@
 package com.moonapps.moonmoon.tabatatimer.utils;
 
-import android.content.Context;
 import android.os.AsyncTask;
-import android.os.Handler;
 
-import com.moonapps.moonmoon.tabatatimer.TabataTimer.TabataRunActivity;
+import com.moonapps.moonmoon.tabatatimer.timer_running_behavior.TabataRunActivity;
 
 /**
  * A customizable ticker for the Timers.

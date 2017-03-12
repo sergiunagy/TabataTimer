@@ -1,17 +1,16 @@
-package com.moonapps.moonmoon.tabatatimer.TabataTimer;
+package com.moonapps.moonmoon.tabatatimer.timer_running_behavior;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.moonapps.moonmoon.tabatatimer.R;
+import com.moonapps.moonmoon.tabatatimer.timer_configuration.TabataConfigurationActivity;
+import com.moonapps.moonmoon.tabatatimer.timer_configuration.TimerConfigurationValues;
 import com.moonapps.moonmoon.tabatatimer.notifications.NotificationsManager;
 import com.moonapps.moonmoon.tabatatimer.utils.TimerTicker;
 

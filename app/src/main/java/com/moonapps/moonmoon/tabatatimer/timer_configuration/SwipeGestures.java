@@ -1,4 +1,4 @@
-package com.moonapps.moonmoon.tabatatimer.TabataTimer;
+package com.moonapps.moonmoon.tabatatimer.timer_configuration;
 
 /**
  * List of swipe gestures supported

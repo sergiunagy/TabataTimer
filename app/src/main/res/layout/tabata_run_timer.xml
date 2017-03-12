@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
 
     app:theme="@style/AppTheme.NoActionBar"
-    tools:context="com.moonapps.moonmoon.tabatatimer.TabataTimer.TabataRunActivity">
+    tools:context="com.moonapps.moonmoon.tabatatimer.timer_running_behavior.TabataRunActivity">
 
     <RelativeLayout
         android:id="@+id/info_tag_layout"

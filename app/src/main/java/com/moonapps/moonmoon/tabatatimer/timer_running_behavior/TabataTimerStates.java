@@ -1,4 +1,4 @@
-package com.moonapps.moonmoon.tabatatimer.TabataTimer;
+package com.moonapps.moonmoon.tabatatimer.timer_running_behavior;
 
 /**
  * Created by Moon Moon on 2/18/2017.

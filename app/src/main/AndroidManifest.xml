@@ -6,10 +6,10 @@
         android:name=".utils.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:supportsRtl="true"
         android:label=""
+        android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".TabataTimer.TabataConfigurationActivity">
+        <activity android:name=".timer_configuration.TabataConfigurationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -17,15 +17,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".TabataTimer.TabataRunActivity"
+            android:name=".timer_running_behavior.TabataRunActivity"
             android:label="@string/runningTimerText"
-            android:parentActivityName=".TabataTimer.TabataConfigurationActivity">
+            android:parentActivityName=".timer_configuration.TabataConfigurationActivity">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".TabataTimer.TabataConfigurationActivity" />
+                android:value=".timer_configuration.TabataConfigurationActivity" />
         </activity>
+        <activity android:name=".user_preferences.PreferencesActivity"></activity>
     </application>
 
 </manifest>

@@ -1,6 +1,6 @@
 package com.moonapps.moonmoon.tabatatimer.utils;
 
-import com.moonapps.moonmoon.tabatatimer.TabataTimer.TimerConfigurationValues;
+import com.moonapps.moonmoon.tabatatimer.timer_configuration.TimerConfigurationValues;
 
 import java.util.ArrayList;
 import java.util.List;
