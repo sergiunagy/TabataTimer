@@ -6,7 +6,7 @@
         android:key="@string/pref_lockscreen"
         android:title="Lock screen rotation" />
 
-    <PreferenceCategory android:title="Preference category">
+    <PreferenceCategory android:title="Pre-start round">
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="@string/pref_prestart"

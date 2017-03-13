@@ -22,6 +22,7 @@ import com.moonapps.moonmoon.tabatatimer.user_preferences.PreferencesActivity;
 import com.moonapps.moonmoon.tabatatimer.utils.TabataGestureListener;
 import com.moonapps.moonmoon.tabatatimer.utils.TabataGestureListenerInterface;
 import com.moonapps.moonmoon.tabatatimer.utils.TimerConfigurationsLoader;
+import com.moonapps.moonmoon.tabatatimer.utils.TimerSaver;
 
 public class TabataConfigurationActivity extends AppCompatActivity implements TabataGestureListenerInterface {
 
@@ -56,10 +57,10 @@ public class TabataConfigurationActivity extends AppCompatActivity implements Ta
         /*
         todo: create screen layouts for landscape
          */
-
         /*
-        playLongSound with the Primary Timer
+        load user preferences
          */
+        TimerConfigurationsLoader.loadDefaults();
         configurationValues = TimerConfigurationsLoader.getDefaultCurrent();
         updateConfigurationValuesDisplayed();
        /*
@@ -102,11 +103,11 @@ public class TabataConfigurationActivity extends AppCompatActivity implements Ta
      * set the numerical keyboard for enetering values
      */
     private void selectKeyboardTypeForEdits() {
-        EditText roundEdit = (EditText) findViewById(R.id.config_round_timer);
+        EditText roundEdit = (EditText) findViewById(R.id.cfg_round_timer_edit);
         roundEdit.setRawInputType(Configuration.KEYBOARD_12KEY);
-        EditText pauseEdit = (EditText) findViewById(R.id.config_pause_timer);
+        EditText pauseEdit = (EditText) findViewById(R.id.cfg_pause_timer_edit);
         pauseEdit.setRawInputType(Configuration.KEYBOARD_12KEY);
-        EditText setNoEdit = (EditText) findViewById(R.id.config_round_number);
+        EditText setNoEdit = (EditText) findViewById(R.id.cfg_sets_number_edit);
         setNoEdit.setRawInputType(Configuration.KEYBOARD_12KEY);
     }
 
@@ -119,7 +120,6 @@ public class TabataConfigurationActivity extends AppCompatActivity implements Ta
         setRoundDisplayValue(configurationValues.getRoundDuration());
         setPauseDisplayValue(configurationValues.getPauseDuration());
         setSetNoDisplayValue(configurationValues.getSetsNumber());
-        setTimerTitleText(configurationValues.getTimerName());
 
     }
 
@@ -150,13 +150,13 @@ public class TabataConfigurationActivity extends AppCompatActivity implements Ta
     public TimerConfigurationValues getConfigurationValuesFromUserInput() {
         TimerConfigurationValues returnValues = new TimerConfigurationValues();
 
-        EditText userRound = (EditText) findViewById(R.id.config_round_timer);
+        EditText userRound = (EditText) findViewById(R.id.cfg_round_timer_edit);
         returnValues.setRoundDuration(userRound.getText().toString());
 
-        EditText userPause = (EditText) findViewById(R.id.config_pause_timer);
+        EditText userPause = (EditText) findViewById(R.id.cfg_pause_timer_edit);
         returnValues.setPauseDuration(userPause.getText().toString());
 
-        EditText userRoundNo = (EditText) findViewById(R.id.config_round_number);
+        EditText userRoundNo = (EditText) findViewById(R.id.cfg_sets_number_edit);
         returnValues.setSetsNumber(userRoundNo.getText().toString());
 
         returnValues.setTimerName(configurationValues.getTimerName());
@@ -190,7 +190,7 @@ public class TabataConfigurationActivity extends AppCompatActivity implements Ta
      * @param lockScreenRotation
      */
     private void setLockScreen(boolean lockScreenRotation) {
-        ImageButton lock = (ImageButton) findViewById(R.id.screen_lock);
+        ImageButton lock = (ImageButton) findViewById(R.id.cfg_screen_lock_button);
         /*
         set field
          */
@@ -227,10 +227,14 @@ public class TabataConfigurationActivity extends AppCompatActivity implements Ta
                 updateConfigurationValuesDisplayed();
                 break;
             case LEFT:
-//                changeTimer(CUSTOM_NEXT);
+                configurationValues = TimerSaver.getDefaultPrevious();
+                setTimerTitleText("Custom timer");
+                updateConfigurationValuesDisplayed();
                 break;
             case RIGHT:
-//                changeTimer(CUSTOM_PREVIOUS);
+                configurationValues = TimerSaver.getDefaultNext();
+                setTimerTitleText("Custom timer");
+                updateConfigurationValuesDisplayed();
                 break;
         }
     }
@@ -241,17 +245,17 @@ public class TabataConfigurationActivity extends AppCompatActivity implements Ta
     }
 
     private void setRoundDisplayValue(String value) {
-        EditText roundEditText = (EditText) findViewById(R.id.config_round_timer);
+        EditText roundEditText = (EditText) findViewById(R.id.cfg_round_timer_edit);
         roundEditText.setText(value);
     }
 
     public void setPauseDisplayValue(String pauseDisplayValue) {
-        EditText newPause = (EditText) findViewById(R.id.config_pause_timer);
+        EditText newPause = (EditText) findViewById(R.id.cfg_pause_timer_edit);
         newPause.setText(pauseDisplayValue);
     }
 
     public void setSetNoDisplayValue(String setNoDisplayValue) {
-        EditText newSetsNo = (EditText) findViewById(R.id.config_round_number);
+        EditText newSetsNo = (EditText) findViewById(R.id.cfg_sets_number_edit);
         newSetsNo.setText(setNoDisplayValue);
     }
 
@@ -275,5 +279,28 @@ public class TabataConfigurationActivity extends AppCompatActivity implements Ta
     public void runGetPreferences(View view) {
         Intent settingsIntent = new Intent(this, PreferencesActivity.class);
         startActivity(settingsIntent);
+    }
+
+    /**
+     * create a new timer and store it
+     * @param view
+     */
+    public void runSaveNewTimer(View view) {
+        TimerConfigurationValues newTimer = new TimerConfigurationValues();
+
+        EditText textHandler = (EditText) findViewById(R.id.cfg_round_timer_edit);
+        newTimer.setRoundDuration(textHandler.getText().toString());
+        textHandler = (EditText) findViewById(R.id.cfg_pause_timer_edit);
+        newTimer.setPauseDuration(textHandler.getText().toString());
+        textHandler = (EditText) findViewById(R.id.cfg_sets_number_edit);
+        newTimer.setSetsNumber(textHandler.getText().toString());
+        /*
+        timer is nameless, will be named on save according to position in custom list
+         */
+        if(TimerSaver.addTimer(newTimer)){
+            Toast.makeText(this, "Timer saved", Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(this, "Timer already exists", Toast.LENGTH_SHORT).show();
+        }
     }
 }

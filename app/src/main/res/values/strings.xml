@@ -25,4 +25,29 @@
     <string name="pref_prestart">pref_prestart</string>
     <string name="pref_prestart_description">pref_editprestart</string>
     <string name="pref_prestart_new_value">edit_text_preference_1</string>
+    <!--Timer preferences keys-->
+    <!--defaults-->
+    <string name="prefs_Def_tabata_preferences_initialized">prefs_Def_tabata_preferences_initialized</string>
+    <string name="prefs_Def_tabata_round_key">prefs_Def_tabata_round_key</string>
+    <string name="prefs_Def_tabata_pause_key">prefs_Def_tabata_pause_key</string>
+    <string name="prefs_Def_tabata_sets_key">prefs_Def_tabata_sets_key</string>
+    <string name="prefs_Def_box_round_key">prefs_Def_box_round_key</string>
+    <string name="prefs_Def_box_pause_key">prefs_Def_box_pause_key</string>
+    <string name="prefs_Def_box_sets_key">prefs_Def_box_sets_key</string>
+    <string name="prefs_Def_interval_round_key">prefs_Def_interval_round_key</string>
+    <string name="prefs_Def_interval_pause_key">prefs_Def_interval_pause_key</string>
+    <string name="prefs_Def_interval_sets_key">prefs_Def_interval_sets_key</string>
+    <!--user saved timers-->
+    <string name="prefs_US_tabata_preferences_initialized">prefs_US_tabata_preferences_initialized</string>
+    <!--<string name="prefs_US_custom_round_key">prefs_US_tabata_round_key</string>-->
+    <!--<string name="prefs_US_tabata_pause_key">prefs_US_tabata_pause_key</string>-->
+    <!--<string name="prefs_US_tabata_sets_key">prefs_US_tabata_sets_key</string>-->
+    <!--<string name="prefs_US_box_round_key">prefs_US_box_round_key</string>-->
+    <!--<string name="prefs_US_box_pause_key">prefs_US_box_pause_key</string>-->
+    <!--<string name="prefs_US_box_sets_key">prefs_US_box_sets_key</string>-->
+    <!--<string name="prefs_US_interval_round_key">prefs_US_interval_round_key</string>-->
+    <!--<string name="prefs_US_interval_pause_key">prefs_US_interval_pause_key</string>-->
+    <!--<string name="prefs_US_interval_sets_key">prefs_US_interval_sets_key</string>-->
+    <string name="prefs_US_max_no_of_timers">prefs_US_max_no_of_timers</string>
+    <string name="prefs_US_current_no_of_timers">current_no_of_timers</string>
 </resources>
