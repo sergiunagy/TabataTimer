@@ -214,29 +214,34 @@ public class TabataConfigurationActivity extends AppCompatActivity implements Ta
      * - LEFT or RIGHT browse through custom timers
      */
     public void onSwipe(SwipeGestures direction) {
-
+        String timerName ;
         switch (direction) {
             case UP:
                 configurationValues = TimerConfigurationsLoader.getDefaultNext();
-                setTimerTitleText(configurationValues.getTimerName());
-                updateConfigurationValuesDisplayed();
+                timerName =configurationValues.getTimerName();
                 break;
             case DOWN:
                 configurationValues = TimerConfigurationsLoader.getDefaultPrevious();
-                setTimerTitleText(configurationValues.getTimerName());
-                updateConfigurationValuesDisplayed();
+                timerName =configurationValues.getTimerName();
                 break;
             case LEFT:
                 configurationValues = TimerSaver.getDefaultPrevious();
-                setTimerTitleText("Custom timer");
-                updateConfigurationValuesDisplayed();
+                timerName = "Custom timer";
                 break;
             case RIGHT:
-                configurationValues = TimerSaver.getDefaultNext();
-                setTimerTitleText("Custom timer");
-                updateConfigurationValuesDisplayed();
+                configurationValues = TimerSaver.getDefaultPrevious();
+                timerName = "Custom timer";
+                break;
+            default:
+                timerName = "buggy :) ";
                 break;
         }
+        if(configurationValues == null){
+            return;
+        }
+        setTimerTitleText(timerName);
+        updateConfigurationValuesDisplayed();
+
     }
 
     private void setTimerTitleText(String timerName) {

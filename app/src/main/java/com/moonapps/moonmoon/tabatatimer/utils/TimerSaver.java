@@ -2,6 +2,7 @@ package com.moonapps.moonmoon.tabatatimer.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
 import com.moonapps.moonmoon.tabatatimer.R;
 import com.moonapps.moonmoon.tabatatimer.timer_configuration.TimerConfigurationValues;
@@ -149,6 +150,10 @@ public class TimerSaver {
      * @return
      */
     public static TimerConfigurationValues getDefaultNext() {
+        if(customTimers.isEmpty()){
+            Toast.makeText(context, "No custom timers", Toast.LENGTH_SHORT).show();
+            return null;
+        }
         incrementIndex();
         TimerConfigurationValues returnedValueSet = customTimers.get(curentCustomTimersIndex);
         return returnedValueSet;
@@ -160,6 +165,10 @@ public class TimerSaver {
      * @return
      */
     public static TimerConfigurationValues getDefaultPrevious() {
+        if(customTimers.isEmpty()){
+            Toast.makeText(context, "No custom timers", Toast.LENGTH_SHORT).show();
+            return null;
+        }
         decrementIndex();
         TimerConfigurationValues returnedValueSet = customTimers.get(curentCustomTimersIndex);
         return returnedValueSet;
