@@ -1,4 +1,4 @@
-package com.moonapps.moonmoon.tabatatimer.utils;
+package com.moonapps.moonmoon.tabatatimer.gestures;
 
 import com.moonapps.moonmoon.tabatatimer.timer_configuration.SwipeGestures;
 

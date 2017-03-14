@@ -1,4 +1,4 @@
-package com.moonapps.moonmoon.tabatatimer.utils;
+package com.moonapps.moonmoon.tabatatimer.user_preferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import com.moonapps.moonmoon.tabatatimer.R;
 import com.moonapps.moonmoon.tabatatimer.timer_configuration.TimerConfigurationValues;
+import com.moonapps.moonmoon.tabatatimer.utils.App;
 
 import java.util.ArrayList;
 import java.util.List;

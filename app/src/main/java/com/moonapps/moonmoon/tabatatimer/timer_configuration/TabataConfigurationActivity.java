@@ -19,10 +19,10 @@ import android.widget.Toast;
 import com.moonapps.moonmoon.tabatatimer.R;
 import com.moonapps.moonmoon.tabatatimer.timer_running_behavior.TabataRunActivity;
 import com.moonapps.moonmoon.tabatatimer.user_preferences.PreferencesActivity;
-import com.moonapps.moonmoon.tabatatimer.utils.TabataGestureListener;
-import com.moonapps.moonmoon.tabatatimer.utils.TabataGestureListenerInterface;
-import com.moonapps.moonmoon.tabatatimer.utils.TimerConfigurationsLoader;
-import com.moonapps.moonmoon.tabatatimer.utils.TimerSaver;
+import com.moonapps.moonmoon.tabatatimer.gestures.TabataGestureListener;
+import com.moonapps.moonmoon.tabatatimer.gestures.TabataGestureListenerInterface;
+import com.moonapps.moonmoon.tabatatimer.user_preferences.TimerConfigurationsLoader;
+import com.moonapps.moonmoon.tabatatimer.user_preferences.TimerSaver;
 
 public class TabataConfigurationActivity extends AppCompatActivity implements TabataGestureListenerInterface {
 
@@ -51,7 +51,7 @@ public class TabataConfigurationActivity extends AppCompatActivity implements Ta
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.tabata_configuration_activity);
+        setContentView(R.layout.configuration_main_activity);
         Toolbar mToolbar = (Toolbar) findViewById(R.id.tabata_toolbar);
         setSupportActionBar(mToolbar);
         /*

@@ -12,4 +12,5 @@
     <dimen name="text_size_configuration_input">40sp</dimen>
     <dimen name="edit_text_input_left_margin">50dp</dimen>
     <dimen name="configuration_input_width">150dp</dimen>
+    <dimen name="run_act_timer_display_dim_htcOneX">450dp</dimen>
 </resources>

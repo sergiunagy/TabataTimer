@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_run_timer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorTimerDisplay"
+    app:theme="@style/AppTheme.NoActionBar"
+    tools:context="com.moonapps.moonmoon.tabatatimer.timer_running_behavior.TabataRunActivity">
+
+    <!--INFORMATION BAR SECTION ***************************************************************-->
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/run_act_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimaryDark"
+        android:elevation="4dp"
+        app:popupTheme="@style/AppTheme.PopupOverlay">
+
+        <RelativeLayout
+            android:id="@+id/run_act_status_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/run_act_status_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ico_run_ready" />
+
+            <TextView
+                android:id="@+id/run_act_status_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:paddingBottom="5dp"
+                android:paddingEnd="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="5dp"
+                android:textSize="40sp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.Toolbar>
+
+    <!--MAIN TIMER DISPLAY SECTION ***************************************************************-->
+    <View
+        android:id="@+id/dividerTop"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_below="@+id/run_act_toolbar"
+        android:layout_marginTop="1dp"
+        android:background="#000000" />
+
+    <RelativeLayout
+        android:id="@+id/run_act_timer_display_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/run_act_timer_display_dim_htcOneX"
+        android:layout_below="@id/dividerTop">
+
+        <com.moonapps.moonmoon.tabatatimer.utils.NoPaddingTextView
+            android:id="@+id/run_act_timer_display_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:includeFontPadding="true"
+            android:onClick="timerClickAction"
+            android:text="8"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="300sp" />
+
+        <RelativeLayout
+            android:id="@+id/run_act_set_countdown_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/run_act_timer_display_tv"
+            android:layout_marginTop="20dp">
+
+            <View
+                android:id="@+id/run_act_countdown_frame_top"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignEnd="@+id/run_act_set_countdown"
+                android:layout_alignRight="@+id/run_act_set_countdown"
+                android:layout_alignTop="@+id/run_act_set_countdown"
+                android:background="#000000" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/run_act_set_countdown"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:includeFontPadding="false"
+                android:text="10"
+                android:textSize="100sp" />
+
+            <View
+                android:id="@+id/run_act_countdown_frame_right"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_alignBottom="@+id/run_act_set_countdown"
+                android:layout_alignTop="@+id/run_act_set_countdown"
+                android:layout_toRightOf="@+id/run_act_set_countdown"
+                android:background="#000000" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <!--RESET, FW AND BCK BUTTONS SECTION***************************************************************-->
+
+    <View
+        android:id="@+id/dividerBottom"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_below="@id/run_act_timer_display_layout"
+        android:layout_marginTop="5dp"
+        android:background="#000000" />
+
+
+    <RelativeLayout
+        android:id="@+id/bottom_display_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="1dp"
+        android:layout_below="@id/dividerLineBottom">
+
+
+        <android.support.v7.widget.AppCompatImageButton
+            android:id="@+id/restart_button"
+            android:layout_width="90dp"
+
+            android:layout_height="90dp"
+            android:layout_centerInParent="true"
+            android:background="@android:color/transparent"
+            android:onClick="restartSessionActions"
+            android:scaleType="fitCenter"
+            android:src="@drawable/reset_glossy" />
+    </RelativeLayout>
+
+</RelativeLayout>

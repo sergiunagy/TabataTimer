@@ -4,4 +4,8 @@
     <color name="colorPrimaryDark">#1B5E20</color>
     <color name="colorAccent">#FFAB40</color>
     <color name="colorSelectedText">#424242</color>
+    <color name="colorTimerDisplay">#E0F2F1</color>
+    <color name="colorActionIndicatorPreStart">#4CAF50</color>
+    <color name="colorActionIndicatorAction">#F44336</color>
+    <color name="colorActionIndicatorPause">#03A9F4</color>
 </resources>

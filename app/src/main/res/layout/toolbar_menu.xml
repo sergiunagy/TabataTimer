@@ -17,19 +17,6 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
         android:textSize="30sp" />
 
-    <!--<ImageButton-->
-        <!--android:id="@+id/toolbar_addtimer_button"-->
-        <!--android:background="@color/colorPrimaryDark"-->
-        <!--android:paddingBottom="10dp"-->
-        <!--android:paddingTop="10dp"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:scaleType="fitCenter"-->
-        <!--android:adjustViewBounds="true"-->
-        <!--android:layout_toLeftOf="@+id/toolbar_settings_button"-->
-        <!--android:layout_toStartOf="@+id/toolbar_settings_button"-->
-        <!--android:layout_marginRight="10dp"-->
-        <!--android:src="@drawable/ico_add"/>-->
     <View
         android:id="@+id/dividerLineUp"
         android:layout_width="1dp"

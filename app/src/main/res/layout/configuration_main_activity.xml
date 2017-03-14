@@ -22,5 +22,5 @@
 
     <include
         android:id="@+id/configuration_layout"
-        layout="@layout/timer_configuration_layout" />
+        layout="@layout/configuration_content_layout" />
 </LinearLayout>

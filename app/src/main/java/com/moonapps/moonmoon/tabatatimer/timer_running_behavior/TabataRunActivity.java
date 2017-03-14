@@ -2,9 +2,14 @@ package com.moonapps.moonmoon.tabatatimer.timer_running_behavior;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -12,6 +17,7 @@ import com.moonapps.moonmoon.tabatatimer.R;
 import com.moonapps.moonmoon.tabatatimer.timer_configuration.TabataConfigurationActivity;
 import com.moonapps.moonmoon.tabatatimer.timer_configuration.TimerConfigurationValues;
 import com.moonapps.moonmoon.tabatatimer.notifications.NotificationsManager;
+import com.moonapps.moonmoon.tabatatimer.utils.NoPaddingTextView;
 import com.moonapps.moonmoon.tabatatimer.utils.TimerTicker;
 
 public class TabataRunActivity extends AppCompatActivity {
@@ -28,6 +34,8 @@ public class TabataRunActivity extends AppCompatActivity {
     value for the volume of the sound: 0..1
      */
     private static final float DEFAULT_ROUND_BELL_VOLUME = NotificationsManager.getMaxNotificationVolume();
+    public static final int RUN_DISPLAY_LETTER_SIZE_2_DIGITS = 300;
+    public static final int RUN_DISPLAY_LETTER_SIZE_3_DIGITS = 220;
 
     /*
     configuration values associated with the timer
@@ -85,11 +93,14 @@ public class TabataRunActivity extends AppCompatActivity {
         /*************************************
          * GUI ADJUSTMENTS
          **************************************/
-        setContentView(R.layout.tabata_run_timer);
+        setContentView(R.layout.run_timer_activity);
         setScreenOrientation(lockScreenSwitch);
         /*
         text size adjuster - adjust size of display according to number of digits
          */
+        NoPaddingTextView display = (NoPaddingTextView) findViewById(R.id.run_act_timer_display_tv);
+        Typeface font = Typeface.createFromAsset(getAssets(),"newscycle-regular.ttf");
+        display.setTypeface(font);
         adjustDisplayForDigits(configValues.getRoundDuration());
         /*
         disable the restart session button
@@ -139,6 +150,8 @@ public class TabataRunActivity extends AppCompatActivity {
         timerNextState = TabataTimerStates.ROUND_RUNNING;
         isRoundFinishedFlag = false;
         isPauseFinishedFlag = false;
+
+        updateSessionStatusInfoTags();
     }
 
     /***
@@ -258,24 +271,23 @@ public class TabataRunActivity extends AppCompatActivity {
 
         switch (timerState) {
             case PRE_START:
-                timerCounter--;
                 if (timerCounter == 0) {
                     isRoundFinishedFlag = true;
                     timerNextState = TabataTimerStates.ROUND_RUNNING;
                 }
+                timerCounter--;
                 return timerCounter;
 
             case PAUSE_RUNNING:
-                timerCounter--;
                 if (timerCounter == 0) {
                     isPauseFinishedFlag = true;
                     timerNextState = TabataTimerStates.ROUND_RUNNING;
-                    setCounter++;
+                    //setCounter++;
                 }
+                timerCounter--;
                 return timerCounter;
 
             case ROUND_RUNNING:
-                timerCounter--;
                 if (timerCounter == 0) {
                     if (isLastRound()) {
                         isRoundFinishedFlag = true;
@@ -285,6 +297,7 @@ public class TabataRunActivity extends AppCompatActivity {
                     timerNextState = TabataTimerStates.PAUSE_RUNNING;
                     isRoundFinishedFlag = true;
                 }
+                timerCounter--;
                 return timerCounter;
 
             case STOPPED:
@@ -308,9 +321,11 @@ public class TabataRunActivity extends AppCompatActivity {
     }
 
     private void displaySessionFinishedMessage() {
-        TextView timerDisplay = (TextView) findViewById(R.id.displayTimer);
+        NoPaddingTextView timerDisplay = (NoPaddingTextView) findViewById(R.id.run_act_timer_display_tv);
         timerDisplay.setTextSize(80);
         timerDisplay.setText(R.string.session_finished);
+        RelativeLayout countdownDisplay = (RelativeLayout) findViewById(R.id.run_act_set_countdown_layout);
+        countdownDisplay.setVisibility(View.INVISIBLE);
     }
 
 
@@ -320,19 +335,31 @@ public class TabataRunActivity extends AppCompatActivity {
      * @param roundDuration
      */
     private void adjustDisplayForDigits(String roundDuration) {
-        int scale = Integer.parseInt(roundDuration) / 100;
-        if (scale > 0) {
-            setLetterSize(180);
+
+        if (hasMoreThan3Digits(roundDuration)) {
+            setLetterSize(RUN_DISPLAY_LETTER_SIZE_3_DIGITS);
         } else {
-            setLetterSize(220);
+            setLetterSize(RUN_DISPLAY_LETTER_SIZE_2_DIGITS);
         }
     }
 
+    /**
+     * check if number of digits is larger than 3
+     * @param value
+     * @return true if more than 3 digits
+     */
+    private boolean hasMoreThan3Digits(String value){
+        int scale = Integer.parseInt(value) / 100;
+        if (scale > 0){
+            return true;
+        }
+        return false;
+    }
     /*
     decrease the letter size for the display round timer
      */
     private void setLetterSize(float size) {
-        TextView roundDisplay = (TextView) findViewById(R.id.displayTimer);
+        NoPaddingTextView roundDisplay = (NoPaddingTextView) findViewById(R.id.run_act_timer_display_tv);
         roundDisplay.setTextSize(size); /*180dp*/
     }
 
@@ -348,47 +375,50 @@ public class TabataRunActivity extends AppCompatActivity {
      */
     private void updateSessionStatusInfoTags() {
 
-        TextView timerDisplay = (TextView) findViewById(R.id.displayTimer);
+        NoPaddingTextView timerDisplay = (NoPaddingTextView) findViewById(R.id.run_act_timer_display_tv);
         timerDisplay.setText("" + timerCounter);
         /*
         Set Prepare-Round-Pause tags
          */
         updateStatusBar();
-        /*
-         Set round number
-         */
-        TextView displaySetsCounter = (TextView) findViewById(R.id.displaySetNumber);
-        displaySetsCounter.setText("" + setCounter);
     }
 
     /**
      * update the information displayed on the top text view
      */
     private void updateStatusBar() {
-        TextView statusTag = (TextView) findViewById(R.id.setNumberTag);
-        TextView setNumber = (TextView) findViewById(R.id.displaySetNumber);
+        TextView statusTag = (TextView) findViewById(R.id.run_act_status_tv);
+        ImageView statusIcon = (ImageView) findViewById(R.id.run_act_status_icon);
+        RelativeLayout actionLayout = (RelativeLayout) findViewById(R.id.bottom_display_layout);
+        AppCompatTextView setsCountdownDisplay = (AppCompatTextView) findViewById(R.id.run_act_set_countdown);
 
-        switch (timerState) {
+        int setCountdownValue = setsCounterMaxValue - setCounter+1 ;
+
+       switch (timerState) {
 
             case PRE_START:
                 statusTag.setText("Get Ready");
-                setNumber.setVisibility(View.INVISIBLE);
+                statusIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ico_run_ready,null));
+                actionLayout.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorActionIndicatorPreStart, null));
+                setsCountdownDisplay.setText(String.valueOf(setsCounterMaxValue));
                 break;
             case ROUND_RUNNING:
-                statusTag.setText("Round ");
-                setNumber.setVisibility(View.VISIBLE);
+                statusTag.setText("Round " + setCounter);
+                statusIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ico_run_action,null));
+                actionLayout.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorActionIndicatorAction, null));
                 break;
             case PAUSE_RUNNING:
                 statusTag.setText("Rest ");
-                setNumber.setVisibility(View.INVISIBLE);
+                statusIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ico_run_rest,null));
+                actionLayout.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorActionIndicatorPause, null));
+                setsCountdownDisplay.setText(String.valueOf(setCountdownValue));
                 break;
             case PAUSED:
                 statusTag.setText("Paused ");
-                setNumber.setVisibility(View.INVISIBLE);
                 break;
             case STOPPED:
                 statusTag.setText("");
-                setNumber.setVisibility(View.INVISIBLE);
+                actionLayout.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorActionIndicatorPause, null));
                 break;
             default:
                 break;
@@ -405,7 +435,7 @@ public class TabataRunActivity extends AppCompatActivity {
     hide the restart button while timer is running
      */
     private void hideRestartSessionButton() {
-        RelativeLayout restartSession = (RelativeLayout) findViewById(R.id.bottom_display_layout);
+        ImageButton restartSession = (ImageButton) findViewById(R.id.restart_button);
         restartSession.setVisibility(View.INVISIBLE);
     }
 
@@ -413,7 +443,7 @@ public class TabataRunActivity extends AppCompatActivity {
     hide the restart button while timer is paused or stopped
      */
     private void showRestartSessionButton() {
-        RelativeLayout restartSession = (RelativeLayout) findViewById(R.id.bottom_display_layout);
+        ImageButton restartSession = (ImageButton) findViewById(R.id.restart_button);
         restartSession.setVisibility(View.VISIBLE);    }
 
     /***

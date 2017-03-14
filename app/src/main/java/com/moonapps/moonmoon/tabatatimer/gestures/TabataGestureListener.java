@@ -1,4 +1,4 @@
-package com.moonapps.moonmoon.tabatatimer.utils;
+package com.moonapps.moonmoon.tabatatimer.gestures;
 
 import android.view.GestureDetector;
 import android.view.MotionEvent;
