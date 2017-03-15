@@ -3,9 +3,11 @@ package com.moonapps.moonmoon.tabatatimer.timer_running_behavior;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 import android.view.WindowManager;
@@ -14,6 +16,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.moonapps.moonmoon.tabatatimer.R;
 import com.moonapps.moonmoon.tabatatimer.notifications.NotificationsManager;
 import com.moonapps.moonmoon.tabatatimer.timer_configuration.TabataConfigurationActivity;
@@ -37,6 +43,9 @@ public class TabataRunActivity extends AppCompatActivity {
     value for the volume of the sound: 0..1
      */
     private static final float DEFAULT_ROUND_BELL_VOLUME = NotificationsManager.getMaxNotificationVolume();
+    public static final String STATUS_IND_PRESTART = "PRESTART";
+    private static final String STATUS_IND_ROUND = "ROUND";
+    private static final String STATUS_IND_PAUSE = "PAUSE";
     /*
     configuration values associated with the timer
      */
@@ -71,6 +80,11 @@ public class TabataRunActivity extends AppCompatActivity {
     private boolean isRoundFinishedFlag;
     private boolean isPauseFinishedFlag;
     private TabataTimerStates timerNextState;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
 
     @Override
@@ -125,6 +139,9 @@ public class TabataRunActivity extends AppCompatActivity {
         start the timer
          */
         startTimer();
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     /***
@@ -183,6 +200,10 @@ public class TabataRunActivity extends AppCompatActivity {
         load the configuration values into the Timer
          */
         initializeTimer(configValues);
+        /*
+        reset the display size- it was modified on stop
+         */
+        adjustDisplayForDigits(configValues.getRoundDuration());
         startTimer();
     }
 
@@ -326,10 +347,28 @@ public class TabataRunActivity extends AppCompatActivity {
 
     private void displaySessionFinishedMessage() {
         NoPaddingTextView timerDisplay = (NoPaddingTextView) findViewById(R.id.run_act_timer_display_tv);
+        AppCompatImageButton restartButton= (AppCompatImageButton) findViewById(R.id.run_act_restart_button);
+
+        /*
+        message displayed on session finish
+         */
         timerDisplay.setTextSize(80);
         timerDisplay.setText(R.string.session_finished);
+        /*
+        hide the countdown for sets
+         */
         RelativeLayout countdownDisplay = (RelativeLayout) findViewById(R.id.run_act_set_countdown_layout);
         countdownDisplay.setVisibility(View.INVISIBLE);
+        /*
+        display finished icon
+         */
+        ImageView statusIcon = (ImageView) findViewById(R.id.run_act_status_icon);
+        statusIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ico_run_finish_32p, null));
+        /*
+        set the restart button attributes
+         */
+        restartButton.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ico_run_reset, null));
+        restartButton.setClickable(true);
     }
 
 
@@ -389,13 +428,53 @@ public class TabataRunActivity extends AppCompatActivity {
         updateStatusBar();
     }
 
+    /***
+     * switch the icons to action status during action and to toolbar on pause
+     * also configure reset button to show on pause
+     * @param viewId,state
+     */
+    private void loadActionStatusDuringAction(int viewId, String state){
+        AppCompatImageButton restartButton= (AppCompatImageButton) findViewById(R.id.run_act_restart_button);
+        ImageView statusIcon = (ImageView) findViewById(R.id.run_act_status_icon);
+
+        restartButton.setImageDrawable(ResourcesCompat.getDrawable(getResources(), viewId, null));
+        restartButton.setVisibility(View.VISIBLE);
+        restartButton.setClickable(false);
+        statusIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(),android.R.color.transparent, null));
+        statusIcon.setTag(state);
+    }
+
+  /***
+     * switch the icons to action status during action and to toolbar on pause
+     * also configure reset button to show on pause
+     * @param
+     */
+    private void loadActionStatusDuringPause(){
+        AppCompatImageButton restartButton= (AppCompatImageButton) findViewById(R.id.run_act_restart_button);
+        ImageView statusIcon = (ImageView) findViewById(R.id.run_act_status_icon);
+
+        String parentState = (String) statusIcon.getTag();
+        switch (parentState){
+            case STATUS_IND_PRESTART:
+                statusIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ico_run_ready_32p, null));
+                break;
+            case STATUS_IND_ROUND:
+                statusIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ico_run_action_32p, null));
+                break;
+            case STATUS_IND_PAUSE:
+                statusIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ico_run_rest_32p, null));
+                break;
+        }
+        restartButton.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ico_run_reset, null));
+        restartButton.setClickable(true);
+    }
+
     /**
      * update the information displayed on the top text view
      */
     private void updateStatusBar() {
         TextView statusTag = (TextView) findViewById(R.id.run_act_status_tv);
-        ImageView statusIcon = (ImageView) findViewById(R.id.run_act_status_icon);
-        RelativeLayout actionLayout = (RelativeLayout) findViewById(R.id.bottom_display_layout);
+        RelativeLayout actionLayout = (RelativeLayout) findViewById(R.id.run_act_bottom_display_layout);
         AppCompatTextView setsCountdownDisplay = (AppCompatTextView) findViewById(R.id.run_act_set_countdown);
 
         int setCountdownValue = setsCounterMaxValue - setCounter + 1;
@@ -404,22 +483,24 @@ public class TabataRunActivity extends AppCompatActivity {
 
             case PRE_START:
                 statusTag.setText("Get Ready");
-                statusIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ico_run_ready, null));
                 actionLayout.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorActionIndicatorPreStart, null));
                 setsCountdownDisplay.setText(String.valueOf(setsCounterMaxValue));
+                loadActionStatusDuringAction(R.drawable.ico_run_ready_64p,STATUS_IND_PRESTART);
                 break;
             case ROUND_RUNNING:
                 statusTag.setText("Round " + setCounter);
-                statusIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ico_run_action, null));
                 actionLayout.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorActionIndicatorAction, null));
+                loadActionStatusDuringAction(R.drawable.ico_run_action_64p,STATUS_IND_ROUND);
                 break;
             case PAUSE_RUNNING:
                 statusTag.setText("Rest ");
-                statusIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ico_run_rest, null));
                 actionLayout.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorActionIndicatorPause, null));
-                setsCountdownDisplay.setText(String.valueOf(setCountdownValue));
+                 setsCountdownDisplay.setText(String.valueOf(setCountdownValue));
+                loadActionStatusDuringAction(R.drawable.ico_run_rest_64p,STATUS_IND_PAUSE);
                 break;
             case PAUSED:
+
+                loadActionStatusDuringPause();
                 statusTag.setText("Paused ");
                 break;
             case STOPPED:
@@ -445,7 +526,7 @@ public class TabataRunActivity extends AppCompatActivity {
     hide the restart button while timer is running
      */
     private void hideRestartSessionButton() {
-        ImageButton restartSession = (ImageButton) findViewById(R.id.restart_button);
+        ImageButton restartSession = (ImageButton) findViewById(R.id.run_act_restart_button);
         restartSession.setVisibility(View.INVISIBLE);
     }
 
@@ -453,7 +534,7 @@ public class TabataRunActivity extends AppCompatActivity {
     hide the restart button while timer is paused or stopped
      */
     private void showRestartSessionButton() {
-        ImageButton restartSession = (ImageButton) findViewById(R.id.restart_button);
+        ImageButton restartSession = (ImageButton) findViewById(R.id.run_act_restart_button);
         restartSession.setVisibility(View.VISIBLE);
     }
 
@@ -555,5 +636,41 @@ public class TabataRunActivity extends AppCompatActivity {
     protected void onDestroy() {
         tabataTimerTicker.stopTicking();
         super.onDestroy();
+    }
+
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    public Action getIndexApiAction() {
+        Thing object = new Thing.Builder()
+                .setName("TabataRun Page") // TODO: Define a title for the content shown.
+                // TODO: Make sure this auto-generated URL is correct.
+                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
+                .build();
+        return new Action.Builder(Action.TYPE_VIEW)
+                .setObject(object)
+                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
+                .build();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        AppIndex.AppIndexApi.start(client, getIndexApiAction());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        AppIndex.AppIndexApi.end(client, getIndexApiAction());
+        client.disconnect();
     }
 }
