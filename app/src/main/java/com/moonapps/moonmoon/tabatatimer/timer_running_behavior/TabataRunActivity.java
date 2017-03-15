@@ -8,15 +8,16 @@ import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.moonapps.moonmoon.tabatatimer.R;
+import com.moonapps.moonmoon.tabatatimer.notifications.NotificationsManager;
 import com.moonapps.moonmoon.tabatatimer.timer_configuration.TabataConfigurationActivity;
 import com.moonapps.moonmoon.tabatatimer.timer_configuration.TimerConfigurationValues;
-import com.moonapps.moonmoon.tabatatimer.notifications.NotificationsManager;
 import com.moonapps.moonmoon.tabatatimer.utils.NoPaddingTextView;
 import com.moonapps.moonmoon.tabatatimer.utils.TimerTicker;
 
@@ -30,13 +31,12 @@ public class TabataRunActivity extends AppCompatActivity {
     default pre-playLongSound counter value - runs first, before the rounds and pauses begin
      */
     public static final int PRESTART_COUNTER_DEFAULT = 5;
+    public static final int RUN_DISPLAY_LETTER_SIZE_2_DIGITS = 300;
+    public static final int RUN_DISPLAY_LETTER_SIZE_3_DIGITS = 220;
     /*
     value for the volume of the sound: 0..1
      */
     private static final float DEFAULT_ROUND_BELL_VOLUME = NotificationsManager.getMaxNotificationVolume();
-    public static final int RUN_DISPLAY_LETTER_SIZE_2_DIGITS = 300;
-    public static final int RUN_DISPLAY_LETTER_SIZE_3_DIGITS = 220;
-
     /*
     configuration values associated with the timer
      */
@@ -89,7 +89,10 @@ public class TabataRunActivity extends AppCompatActivity {
         import screen orientation preference
          */
         lockScreenSwitch = dataInput.getBooleanExtra(TabataConfigurationActivity.LOCK_SCREEN, false);
-
+        /*
+        stop screen from turning off
+         */
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         /*************************************
          * GUI ADJUSTMENTS
          **************************************/
@@ -99,7 +102,7 @@ public class TabataRunActivity extends AppCompatActivity {
         text size adjuster - adjust size of display according to number of digits
          */
         NoPaddingTextView display = (NoPaddingTextView) findViewById(R.id.run_act_timer_display_tv);
-        Typeface font = Typeface.createFromAsset(getAssets(),"newscycle-regular.ttf");
+        Typeface font = Typeface.createFromAsset(getAssets(), "newscycle-regular.ttf");
         display.setTypeface(font);
         adjustDisplayForDigits(configValues.getRoundDuration());
         /*
@@ -166,6 +169,7 @@ public class TabataRunActivity extends AppCompatActivity {
 
     /**
      * restart session on User action
+     *
      * @param view
      */
     public void restartSessionActions(View view) {
@@ -345,16 +349,18 @@ public class TabataRunActivity extends AppCompatActivity {
 
     /**
      * check if number of digits is larger than 3
+     *
      * @param value
      * @return true if more than 3 digits
      */
-    private boolean hasMoreThan3Digits(String value){
+    private boolean hasMoreThan3Digits(String value) {
         int scale = Integer.parseInt(value) / 100;
-        if (scale > 0){
+        if (scale > 0) {
             return true;
         }
         return false;
     }
+
     /*
     decrease the letter size for the display round timer
      */
@@ -392,24 +398,24 @@ public class TabataRunActivity extends AppCompatActivity {
         RelativeLayout actionLayout = (RelativeLayout) findViewById(R.id.bottom_display_layout);
         AppCompatTextView setsCountdownDisplay = (AppCompatTextView) findViewById(R.id.run_act_set_countdown);
 
-        int setCountdownValue = setsCounterMaxValue - setCounter+1 ;
+        int setCountdownValue = setsCounterMaxValue - setCounter + 1;
 
-       switch (timerState) {
+        switch (timerState) {
 
             case PRE_START:
                 statusTag.setText("Get Ready");
-                statusIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ico_run_ready,null));
+                statusIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ico_run_ready, null));
                 actionLayout.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorActionIndicatorPreStart, null));
                 setsCountdownDisplay.setText(String.valueOf(setsCounterMaxValue));
                 break;
             case ROUND_RUNNING:
                 statusTag.setText("Round " + setCounter);
-                statusIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ico_run_action,null));
+                statusIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ico_run_action, null));
                 actionLayout.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorActionIndicatorAction, null));
                 break;
             case PAUSE_RUNNING:
                 statusTag.setText("Rest ");
-                statusIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ico_run_rest,null));
+                statusIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ico_run_rest, null));
                 actionLayout.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorActionIndicatorPause, null));
                 setsCountdownDisplay.setText(String.valueOf(setCountdownValue));
                 break;
@@ -419,6 +425,10 @@ public class TabataRunActivity extends AppCompatActivity {
             case STOPPED:
                 statusTag.setText("");
                 actionLayout.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorActionIndicatorPause, null));
+                /*
+                disable screen ON
+                 */
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                 break;
             default:
                 break;
@@ -444,7 +454,8 @@ public class TabataRunActivity extends AppCompatActivity {
      */
     private void showRestartSessionButton() {
         ImageButton restartSession = (ImageButton) findViewById(R.id.restart_button);
-        restartSession.setVisibility(View.VISIBLE);    }
+        restartSession.setVisibility(View.VISIBLE);
+    }
 
     /***
      * send the configuration values used back to the parent activity
@@ -529,7 +540,6 @@ public class TabataRunActivity extends AppCompatActivity {
         isPauseFinishedFlag = pauseContext.getPauseFinishedFlag();
         isRoundFinishedFlag = pauseContext.getRoundFinishedFlag();
     }
-
 
 
     private void setScreenOrientation(boolean lockScreen) {
